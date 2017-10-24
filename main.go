@@ -1,20 +1,12 @@
 package main
 
-import (
-	"context"
-	"fmt"
-
-	"github.com/google/go-github/github"
-)
+import "golang.org/x/net/websocket"
 
 func main() {
-	client := github.NewClient(nil)
-	ctx := context.Background()
-	commits, _, err := client.Repositories.ListCommits(ctx, "etherdelta", "etherdelta.github.io", nil)
+
+	ws, err := websocket.Dial("wss://socket.etherdelta.com/", "", "http://localhost/")
 	if err != nil {
-		println(err)
+		return err
 	}
-	for i := 0; i < len(commits); i++ {
-		fmt.Printf("%v: %v\n", *commits[i].SHA, *commits[i].Commit.Message)
-	}
+
 }
